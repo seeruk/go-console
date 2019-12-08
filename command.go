@@ -1,5 +1,7 @@
 package console
 
+import "os"
+
 // CommandContainer is the interface that provides a method to get commands on an object.
 type CommandContainer interface {
 	// Commands gets commands from an object.
@@ -48,4 +50,33 @@ func (c *Command) AddCommand(command *Command) *Command {
 // Commands gets the sub-commands on a command.
 func (c *Command) Commands() []*Command {
 	return c.commands
+}
+
+// RunCommand ...
+func RunCommand(command *Command, argv []string, env []string) int {
+	def := NewDefinition()
+
+	// TODO: Configurable.
+	output := NewOutput(os.Stdout)
+
+	command.Configure(def)
+
+	// TODO: Help option?
+	input := ParseInput(def, argv)
+
+	err := MapInput(def, input, env)
+	if err != nil {
+		output.Println(err)
+		output.Printf("Try '%s --help' for more information.\n", "APP")
+		return 101
+	}
+
+	err = command.Execute(input, output)
+	if err != nil {
+		output.Println(err)
+		output.Printf("Try '%s %s --help' for more information.\n", "APP", "CMD")
+		return 1
+	}
+
+	return 0
 }

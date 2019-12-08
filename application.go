@@ -79,7 +79,7 @@ func (a *Application) Run(argv []string, env []string) int {
 	}
 
 	// Assign input to application.
-	a.input = ParseInput2(a.definition, argv)
+	a.input = ParseInput(a.definition, argv)
 
 	err := MapInput(a.definition, a.input, env)
 	if err != nil {

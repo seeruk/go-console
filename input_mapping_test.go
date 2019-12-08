@@ -9,8 +9,8 @@ import (
 )
 
 func TestMapInput(t *testing.T) {
-	createInput := func(params []string) *console.Input {
-		return console.ParseInput(params)
+	createInput := func(def *console.Definition, params []string) *console.Input {
+		return console.ParseInput(def, params)
 	}
 
 	t.Run("should map arguments to their reference values", func(t *testing.T) {
@@ -19,8 +19,6 @@ func TestMapInput(t *testing.T) {
 
 		assert.Equal(t, "", s1)
 		assert.Equal(t, "", s2)
-
-		input := createInput([]string{"hello", "world"})
 
 		definition := console.NewDefinition()
 		definition.AddArgument(console.ArgumentDefinition{
@@ -32,6 +30,8 @@ func TestMapInput(t *testing.T) {
 			Value: parameters.NewStringValue(&s2),
 			Spec:  "S2",
 		})
+
+		input := createInput(definition, []string{"hello", "world"})
 
 		err := console.MapInput(definition, input, []string{})
 		assert.NoError(t, err)
@@ -45,13 +45,13 @@ func TestMapInput(t *testing.T) {
 
 		assert.Equal(t, 0, i1)
 
-		input := createInput([]string{"foo"})
-
 		definition := console.NewDefinition()
 		definition.AddArgument(console.ArgumentDefinition{
 			Value: parameters.NewIntValue(&i1),
 			Spec:  "I1",
 		})
+
+		input := createInput(definition, []string{"foo"})
 
 		err := console.MapInput(definition, input, []string{})
 		assert.Error(t, err)
@@ -64,8 +64,6 @@ func TestMapInput(t *testing.T) {
 		assert.Equal(t, "", s1)
 		assert.Equal(t, "", s2)
 
-		input := createInput([]string{"foo"})
-
 		definition := console.NewDefinition()
 		definition.AddArgument(console.ArgumentDefinition{
 			Value: parameters.NewStringValue(&s1),
@@ -76,6 +74,8 @@ func TestMapInput(t *testing.T) {
 			Value: parameters.NewStringValue(&s1),
 			Spec:  "S2",
 		})
+
+		input := createInput(definition, []string{"foo"})
 
 		err := console.MapInput(definition, input, []string{})
 		assert.Error(t, err)
@@ -88,8 +88,6 @@ func TestMapInput(t *testing.T) {
 		assert.Equal(t, "", s1)
 		assert.Equal(t, "", s2)
 
-		input := createInput([]string{"foo"})
-
 		definition := console.NewDefinition()
 		definition.AddArgument(console.ArgumentDefinition{
 			Value: parameters.NewStringValue(&s1),
@@ -100,6 +98,8 @@ func TestMapInput(t *testing.T) {
 			Value: parameters.NewStringValue(&s1),
 			Spec:  "[S2]",
 		})
+
+		input := createInput(definition, []string{"foo"})
 
 		err := console.MapInput(definition, input, []string{})
 		assert.NoError(t, err)
@@ -115,8 +115,6 @@ func TestMapInput(t *testing.T) {
 		assert.Equal(t, "", s1)
 		assert.Equal(t, "", s2)
 
-		input := createInput([]string{"-a=foo", "-b=bar"})
-
 		definition := console.NewDefinition()
 		definition.AddOption(console.OptionDefinition{
 			Value: parameters.NewStringValue(&s1),
@@ -127,6 +125,8 @@ func TestMapInput(t *testing.T) {
 			Value: parameters.NewStringValue(&s2),
 			Spec:  "-b=S2",
 		})
+
+		input := createInput(definition, []string{"-a=foo", "-b=bar"})
 
 		err := console.MapInput(definition, input, []string{})
 		assert.NoError(t, err)
@@ -142,8 +142,6 @@ func TestMapInput(t *testing.T) {
 		assert.Equal(t, "", s1)
 		assert.Equal(t, "", s2)
 
-		input := createInput([]string{"--foo=bar", "--baz=qux"})
-
 		definition := console.NewDefinition()
 		definition.AddOption(console.OptionDefinition{
 			Value: parameters.NewStringValue(&s1),
@@ -155,6 +153,8 @@ func TestMapInput(t *testing.T) {
 			Spec:  "--baz=S2",
 		})
 
+		input := createInput(definition, []string{"--foo=bar", "--baz=qux"})
+
 		err := console.MapInput(definition, input, []string{})
 		assert.NoError(t, err)
 
@@ -165,13 +165,13 @@ func TestMapInput(t *testing.T) {
 	t.Run("should ignore options that don't exist in the definition", func(t *testing.T) {
 		var s2 string
 
-		input := createInput([]string{"--foo=bar"})
-
 		definition := console.NewDefinition()
 		definition.AddOption(console.OptionDefinition{
 			Value: parameters.NewStringValue(&s2),
 			Spec:  "--baz=S2",
 		})
+
+		input := createInput(definition, []string{"--foo=bar"})
 
 		err := console.MapInput(definition, input, []string{})
 		assert.NoError(t, err)
@@ -180,13 +180,13 @@ func TestMapInput(t *testing.T) {
 	t.Run("should error mapping an option that requires a value with no value", func(t *testing.T) {
 		var s1 string
 
-		input := createInput([]string{"--foo"})
-
 		definition := console.NewDefinition()
 		definition.AddOption(console.OptionDefinition{
 			Value: parameters.NewStringValue(&s1),
 			Spec:  "--foo=s1",
 		})
+
+		input := createInput(definition, []string{"--foo"})
 
 		err := console.MapInput(definition, input, []string{})
 		assert.Error(t, err)
@@ -195,13 +195,13 @@ func TestMapInput(t *testing.T) {
 	t.Run("should not error parsing an option that doesn't require a value", func(t *testing.T) {
 		var s1 string
 
-		input := createInput([]string{"--foo"})
-
 		definition := console.NewDefinition()
 		definition.AddOption(console.OptionDefinition{
 			Value: parameters.NewStringValue(&s1),
 			Spec:  "--foo[=s1]",
 		})
+
+		input := createInput(definition, []string{"--foo"})
 
 		err := console.MapInput(definition, input, []string{})
 		assert.NoError(t, err)
@@ -212,13 +212,13 @@ func TestMapInput(t *testing.T) {
 
 		assert.Equal(t, false, b1)
 
-		input := createInput([]string{"--foo"})
-
 		definition := console.NewDefinition()
 		definition.AddOption(console.OptionDefinition{
 			Value: parameters.NewBoolValue(&b1),
 			Spec:  "--foo",
 		})
+
+		input := createInput(definition, []string{"--foo"})
 
 		err := console.MapInput(definition, input, []string{})
 		assert.NoError(t, err)
@@ -231,13 +231,13 @@ func TestMapInput(t *testing.T) {
 
 		assert.Equal(t, 0, i1)
 
-		input := createInput([]string{"--foo=hello"})
-
 		definition := console.NewDefinition()
 		definition.AddOption(console.OptionDefinition{
 			Value: parameters.NewIntValue(&i1),
 			Spec:  "--foo=I1",
 		})
+
+		input := createInput(definition, []string{"--foo=hello"})
 
 		err := console.MapInput(definition, input, []string{})
 		assert.Error(t, err)

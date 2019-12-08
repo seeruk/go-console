@@ -3,35 +3,84 @@ package console
 import (
 	"fmt"
 	"strings"
+
+	"github.com/seeruk/go-console/parameters"
 )
 
-// ParseInput takes an array of strings (typically arguments to the application), and parses them
-// into the raw Input type.
-func ParseInput(params []string) *Input {
-	var result Input
+// ParseInput takes the raw input, and regardless of what is actually defined in the definition,
+// categorises the input as either arguments or options. In other words, the raw input is iterated
+// over, not the definition's parameters. The definition is used so that we can identify options
+// that should have values and consume the next argument as it's value.
+func ParseInput(definition *Definition, args []string) *Input {
+	var input Input
+	var optsEnded bool
 
-	processOptions := true
+	// We don't range, because we can modify `i` in the middle of the loop this way. This allows us
+	// to consume the next argument if we want (and if it's available).
+	for i := 0; i < len(args); i++ {
+		arg := args[i]
 
-	for _, param := range params {
-		if param == "--" {
-			processOptions = false
+		if arg == "--" {
+			optsEnded = true
 			continue
 		}
 
-		paramLen := len(param)
-		isLongOpt := paramLen > 2 && strings.HasPrefix(param, "--")
-		isShortOpt := paramLen > 1 && strings.HasPrefix(param, "-")
+		argLen := len(arg)
+		isLongOpt := argLen > 2 && strings.HasPrefix(arg, "--")
+		isShortOpt := argLen > 1 && strings.HasPrefix(arg, "-")
 
-		if processOptions && isLongOpt {
-			result.Options = append(result.Options, parseOption(param, "--")...)
-		} else if processOptions && isShortOpt {
-			result.Options = append(result.Options, parseOption(param, "-")...)
+		if !optsEnded && (isLongOpt || isShortOpt) {
+			var options []InputOption
+
+			if isLongOpt {
+				options = parseOption(arg, "--")
+			} else {
+				options = parseOption(arg, "-")
+			}
+
+			// mappedOptions is a temporary place for the options parsed from this one argument to
+			// be stored. We need this so we can always identify if we actually parsed any options
+			// at all, and so we can get the last option for this argument all of the time.
+			mappedOptions := []InputOption{}
+
+			for _, option := range options {
+				// All options will be mapped, regardless. Only the last option will have any value.
+				mappedOptions = append(mappedOptions, option)
+			}
+
+			mappedOptionsLen := len(mappedOptions)
+
+			if mappedOptionsLen > 0 {
+				lastOption := mappedOptions[mappedOptionsLen-1]
+
+				defOpt, exists := definition.options[lastOption.Name]
+				if !exists {
+					// We don't care about options that don't exist in the definition. We shouldn't
+					// be consuming arguments for them, because they won't require a value.
+					break
+				}
+
+				isRequired := defOpt.ValueMode == parameters.OptionValueRequired
+				hasArgsLeft := len(args) > (i + 1) // Length required for next is +2, not +1.
+				hasNoValYet := lastOption.Value == ""
+
+				// If the value is required, but we don't yet have a value on the option, this means
+				// we'll consume the next argument following the option and treat it as the value.
+				if isRequired && hasNoValYet && hasArgsLeft {
+					lastOption.Value = args[i+1]
+					i++
+				}
+
+				mappedOptions[mappedOptionsLen-1] = lastOption
+			}
+
+			input.Options = append(input.Options, mappedOptions...)
 		} else {
-			result.Arguments = append(result.Arguments, InputArgument{Value: param})
+			input.Arguments = append(input.Arguments, InputArgument{Value: arg})
 		}
 	}
 
-	return &result
+	return &input
 }
 
 // parseOption parses an input option with the given prefix (e.g. '-', or '--'). It returns an array
