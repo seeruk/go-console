@@ -4,6 +4,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/seeruk/go-console/parameters"
 )
@@ -92,8 +93,13 @@ func (a *Application) Run(argv []string, env []string) int {
 
 	err = cmd.Execute(a.input, a.output)
 	if err != nil {
+		helpCommand := a.UsageName
+		if cmd.Name != "" {
+			helpCommand += " " + strings.Join(path, " ")
+		}
+
 		a.output.Println(err)
-		a.output.Printf("Try '%s %s --help' for more information.\n", a.UsageName, cmd.Name)
+		a.output.Printf("Try '%s --help' for more information.\n", helpCommand)
 		return 1
 	}
 
