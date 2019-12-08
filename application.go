@@ -113,6 +113,7 @@ func (a *Application) Commands() []*Command {
 	return a.commands
 }
 
+// AddGlobalOption adds a global option to the application.
 func (a *Application) AddGlobalOption(definition OptionDefinition) {
 	a.globalOptionDefinitions = append(a.globalOptionDefinitions, definition)
 }
