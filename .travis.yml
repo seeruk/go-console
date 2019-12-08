@@ -1,13 +1,14 @@
 language: go
 
 go:
-- 1.9
+- "1.12"
+- "1.13"
 
 before_install:
 - go get -u -v github.com/golang/lint/golint
 
 install:
-- go get -t -u -v ./...
+- go mod download
 
 script:
 - golint ./...
