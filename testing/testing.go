@@ -11,7 +11,7 @@ func RunCommand(cmd *console.Command, def *console.Definition, in *console.Input
 		cmd.Configure(def)
 	}
 
-	err := console.MapInput(def, in, env)
+	err := console.MapInput("test", def, in, env)
 	if err != nil {
 		return err
 	}

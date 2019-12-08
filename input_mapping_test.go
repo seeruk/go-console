@@ -33,7 +33,7 @@ func TestMapInput(t *testing.T) {
 
 		input := createInput(definition, []string{"hello", "world"})
 
-		err := console.MapInput(definition, input, []string{})
+		err := console.MapInput("test", definition, input, []string{})
 		assert.NoError(t, err)
 
 		assert.Equal(t, "hello", s1)
@@ -53,7 +53,7 @@ func TestMapInput(t *testing.T) {
 
 		input := createInput(definition, []string{"foo"})
 
-		err := console.MapInput(definition, input, []string{})
+		err := console.MapInput("test", definition, input, []string{})
 		assert.Error(t, err)
 	})
 
@@ -77,7 +77,7 @@ func TestMapInput(t *testing.T) {
 
 		input := createInput(definition, []string{"foo"})
 
-		err := console.MapInput(definition, input, []string{})
+		err := console.MapInput("test", definition, input, []string{})
 		assert.Error(t, err)
 	})
 
@@ -101,7 +101,7 @@ func TestMapInput(t *testing.T) {
 
 		input := createInput(definition, []string{"foo"})
 
-		err := console.MapInput(definition, input, []string{})
+		err := console.MapInput("test", definition, input, []string{})
 		assert.NoError(t, err)
 
 		assert.Equal(t, "foo", s1)
@@ -128,7 +128,7 @@ func TestMapInput(t *testing.T) {
 
 		input := createInput(definition, []string{"-a=foo", "-b=bar"})
 
-		err := console.MapInput(definition, input, []string{})
+		err := console.MapInput("test", definition, input, []string{})
 		assert.NoError(t, err)
 
 		assert.Equal(t, "foo", s1)
@@ -155,7 +155,7 @@ func TestMapInput(t *testing.T) {
 
 		input := createInput(definition, []string{"--foo=bar", "--baz=qux"})
 
-		err := console.MapInput(definition, input, []string{})
+		err := console.MapInput("test", definition, input, []string{})
 		assert.NoError(t, err)
 
 		assert.Equal(t, "bar", s1)
@@ -173,7 +173,7 @@ func TestMapInput(t *testing.T) {
 
 		input := createInput(definition, []string{"--foo=bar"})
 
-		err := console.MapInput(definition, input, []string{})
+		err := console.MapInput("test", definition, input, []string{})
 		assert.NoError(t, err)
 	})
 
@@ -188,7 +188,7 @@ func TestMapInput(t *testing.T) {
 
 		input := createInput(definition, []string{"--foo"})
 
-		err := console.MapInput(definition, input, []string{})
+		err := console.MapInput("test", definition, input, []string{})
 		assert.Error(t, err)
 	})
 
@@ -203,7 +203,7 @@ func TestMapInput(t *testing.T) {
 
 		input := createInput(definition, []string{"--foo"})
 
-		err := console.MapInput(definition, input, []string{})
+		err := console.MapInput("test", definition, input, []string{})
 		assert.NoError(t, err)
 	})
 
@@ -220,7 +220,7 @@ func TestMapInput(t *testing.T) {
 
 		input := createInput(definition, []string{"--foo"})
 
-		err := console.MapInput(definition, input, []string{})
+		err := console.MapInput("test", definition, input, []string{})
 		assert.NoError(t, err)
 
 		assert.Equal(t, true, b1)
@@ -239,7 +239,7 @@ func TestMapInput(t *testing.T) {
 
 		input := createInput(definition, []string{"--foo=hello"})
 
-		err := console.MapInput(definition, input, []string{})
+		err := console.MapInput("test", definition, input, []string{})
 		assert.Error(t, err)
 	})
 
@@ -263,7 +263,7 @@ func TestMapInput(t *testing.T) {
 			EnvVar: "TEST_S2",
 		})
 
-		err := console.MapInput(definition, &console.Input{}, []string{
+		err := console.MapInput("test", definition, &console.Input{}, []string{
 			"TEST_S1=foo",
 			"TEST_S2=bar",
 		})
@@ -283,7 +283,7 @@ func TestMapInput(t *testing.T) {
 			Spec:  "--baz=S2",
 		})
 
-		err := console.MapInput(definition, &console.Input{}, []string{
+		err := console.MapInput("test", definition, &console.Input{}, []string{
 			"FOO=bar",
 		})
 
@@ -300,7 +300,7 @@ func TestMapInput(t *testing.T) {
 			EnvVar: "TEST_FOO",
 		})
 
-		err := console.MapInput(definition, &console.Input{}, []string{
+		err := console.MapInput("test", definition, &console.Input{}, []string{
 			"TEST_FOO=",
 		})
 
@@ -317,7 +317,7 @@ func TestMapInput(t *testing.T) {
 			EnvVar: "TEST_FOO",
 		})
 
-		err := console.MapInput(definition, &console.Input{}, []string{
+		err := console.MapInput("test", definition, &console.Input{}, []string{
 			"TEST_FOO=",
 		})
 
@@ -336,7 +336,7 @@ func TestMapInput(t *testing.T) {
 			EnvVar: "TEST_FOO",
 		})
 
-		err := console.MapInput(definition, &console.Input{}, []string{
+		err := console.MapInput("test", definition, &console.Input{}, []string{
 			"TEST_FOO=hello",
 		})
 

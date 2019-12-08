@@ -84,7 +84,7 @@ func (a *Application) Run(argv []string, env []string) int {
 	// Assign input to application.
 	a.input = ParseInput(a.definition, argv)
 
-	err := MapInput(a.definition, a.input, env)
+	err := MapInput(a.UsageName, a.definition, a.input, env)
 	if err != nil {
 		a.output.Println(err)
 		a.output.Printf("Try '%s --help' for more information.\n", a.UsageName)

@@ -8,16 +8,16 @@ import (
 )
 
 // MapInput maps the values of input to their corresponding reference values.
-func MapInput(definition *Definition, input *Input, env []string) error {
-	if err := mapArguments(definition.Arguments(), input); err != nil {
+func MapInput(usageName string, definition *Definition, input *Input, env []string) error {
+	if err := mapArguments(usageName, definition.Arguments(), input); err != nil {
 		return err
 	}
 
-	if err := mapOptions(definition.Options(), input); err != nil {
+	if err := mapOptions(usageName, definition.Options(), input); err != nil {
 		return err
 	}
 
-	if err := mapEnv(definition.Options(), env); err != nil {
+	if err := mapEnv(usageName, definition.Options(), env); err != nil {
 		return err
 	}
 
@@ -25,7 +25,7 @@ func MapInput(definition *Definition, input *Input, env []string) error {
 }
 
 // mapArguments maps the values of input arguments to their corresponding references.
-func mapArguments(args []parameters.Argument, input *Input) error {
+func mapArguments(usageName string, args []parameters.Argument, input *Input) error {
 	var unmappedArguments []parameters.Argument
 
 	for i, arg := range args {
@@ -37,13 +37,13 @@ func mapArguments(args []parameters.Argument, input *Input) error {
 		value := input.Arguments[i].Value
 
 		if err := arg.Value.Set(value); err != nil {
-			return fmt.Errorf("console: Invalid value '%s' for argument '%s'. Error: %s", value, arg.Name, err)
+			return fmt.Errorf("%s: Invalid value '%s' for argument '%s'. Error: %s", usageName, value, arg.Name, err)
 		}
 	}
 
 	for _, uarg := range unmappedArguments {
 		if uarg.Required {
-			return fmt.Errorf("console: Argument '%s' is required", uarg.Name)
+			return fmt.Errorf("%s: Argument '%s' is required", usageName, uarg.Name)
 		}
 	}
 
@@ -51,7 +51,7 @@ func mapArguments(args []parameters.Argument, input *Input) error {
 }
 
 // mapOptions maps the values of input options to their corresponding references.
-func mapOptions(opts []parameters.Option, input *Input) error {
+func mapOptions(usageName string, opts []parameters.Option, input *Input) error {
 	for _, opt := range opts {
 		inputOpt := findOptionInInput(opt, input)
 
@@ -60,7 +60,7 @@ func mapOptions(opts []parameters.Option, input *Input) error {
 			continue
 		}
 
-		err := setOptionValue(opt, inputOpt.Name, inputOpt.Value)
+		err := setOptionValue(usageName, opt, inputOpt.Name, inputOpt.Value)
 		if err != nil {
 			return err
 		}
@@ -70,7 +70,7 @@ func mapOptions(opts []parameters.Option, input *Input) error {
 }
 
 // mapEnv maps the values of environment variables into their corresponding option references.
-func mapEnv(opts []parameters.Option, env []string) error {
+func mapEnv(usageName string, opts []parameters.Option, env []string) error {
 	envMap := make(map[string]string)
 
 	// Split array of option key and values into map.
@@ -95,7 +95,7 @@ func mapEnv(opts []parameters.Option, env []string) error {
 			continue
 		}
 
-		err := setOptionValue(opt, name, value)
+		err := setOptionValue(usageName, opt, name, value)
 		if err != nil {
 			return err
 		}
@@ -105,9 +105,9 @@ func mapEnv(opts []parameters.Option, env []string) error {
 }
 
 // setOptionValue sets the value of an option, and handles potential error cases.
-func setOptionValue(opt parameters.Option, name string, value string) error {
+func setOptionValue(usageName string, opt parameters.Option, name string, value string) error {
 	if opt.ValueMode == parameters.OptionValueRequired && value == "" {
-		return fmt.Errorf("console: Option '%s' requires a value", name)
+		return fmt.Errorf("%s: Option '%s' requires a value", usageName, name)
 	}
 
 	isEmptyOptional := opt.ValueMode == parameters.OptionValueOptional && value == ""
@@ -115,11 +115,14 @@ func setOptionValue(opt parameters.Option, name string, value string) error {
 	// If we have a flag option, and we received no value, then we should use the preset flag
 	// value for if the flag is present.
 	if ov, ok := opt.Value.(parameters.FlagValue); value == "" && ok {
-		ov.Set(ov.FlagValue())
+		err := ov.Set(ov.FlagValue())
+		if err != nil {
+			return fmt.Errorf("%s: Invalid default value '%s' for option '%s'. Error: %s", usageName, value, name, err)
+		}
 	} else if !isEmptyOptional {
 		err := opt.Value.Set(value)
 		if err != nil {
-			return fmt.Errorf("console: Invalid value '%s' for option '%s'. Error: %s", value, name, err)
+			return fmt.Errorf("%s: Invalid value '%s' for option '%s'. Error: %s", usageName, value, name, err)
 		}
 	}
 
