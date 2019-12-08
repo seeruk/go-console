@@ -86,7 +86,7 @@ func (a *Application) Run(argv []string, env []string) int {
 
 	err := MapInput(a.Name, a.definition, a.input, env)
 	if err != nil {
-		a.output.Printf("%s: %s", a.Name, err.Error())
+		a.output.Printf("%s: %s\n", a.Name, err.Error())
 		a.output.Printf("Try '%s --help' for more information.\n", a.UsageName)
 		return 101
 	}
@@ -98,7 +98,7 @@ func (a *Application) Run(argv []string, env []string) int {
 			helpCommand += " " + strings.Join(path, " ")
 		}
 
-		a.output.Printf("%s: %s", a.Name, err.Error())
+		a.output.Printf("%s: %s\n", a.Name, err.Error())
 		a.output.Printf("Try '%s --help' for more information.\n", helpCommand)
 		return 1
 	}
