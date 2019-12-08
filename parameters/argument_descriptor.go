@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/eidolon/wordwrap"
+	"github.com/seeruk/go-wordwrap"
 )
 
 // DescribeArguments describes an array of Arguments, formatting them in a helpful way.

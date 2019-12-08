@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/eidolon/wordwrap"
+	"github.com/seeruk/go-wordwrap"
 )
 
 // DescribeOptions describes an array of Options, formatting them in a helpful way.
