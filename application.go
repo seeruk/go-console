@@ -84,9 +84,9 @@ func (a *Application) Run(argv []string, env []string) int {
 	// Assign input to application.
 	a.input = ParseInput(a.definition, argv)
 
-	err := MapInput(a.UsageName, a.definition, a.input, env)
+	err := MapInput(a.Name, a.definition, a.input, env)
 	if err != nil {
-		a.output.Println(err)
+		a.output.Printf("%s: %s", a.Name, err.Error())
 		a.output.Printf("Try '%s --help' for more information.\n", a.UsageName)
 		return 101
 	}
@@ -98,7 +98,7 @@ func (a *Application) Run(argv []string, env []string) int {
 			helpCommand += " " + strings.Join(path, " ")
 		}
 
-		a.output.Println(err)
+		a.output.Printf("%s: %s", a.Name, err.Error())
 		a.output.Printf("Try '%s --help' for more information.\n", helpCommand)
 		return 1
 	}
