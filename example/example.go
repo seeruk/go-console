@@ -67,6 +67,29 @@ func main() {
 		},
 	})
 
+	var test string
+	var test2 string
+
+	application.SetRootCommand(&console.Command{
+		Configure: func(definition *console.Definition) {
+			definition.AddOption(console.OptionDefinition{
+				Value: parameters.NewStringValue(&test),
+				Spec:  "--test=TEST",
+				Desc:  "Test option for root command",
+			})
+
+			definition.AddArgument(console.ArgumentDefinition{
+				Value: parameters.NewStringValue(&test2),
+				Spec:  "TEST2",
+				Desc:  "Test argument for root command",
+			})
+		},
+		Execute: func(input *console.Input, output *console.Output) error {
+			output.Println("Hello, World!")
+			return nil
+		},
+	})
+
 	code := application.Run(os.Args[1:], os.Environ())
 
 	os.Exit(code)

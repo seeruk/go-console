@@ -3,8 +3,8 @@ package console
 import (
 	"fmt"
 
-	"github.com/seeruk/go-console/parameters"
 	"github.com/eidolon/wordwrap"
+	"github.com/seeruk/go-console/parameters"
 )
 
 // DescribeApplication describes an Application to provide usage information.

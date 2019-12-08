@@ -5,8 +5,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/seeruk/go-console/parameters"
 	"github.com/eidolon/wordwrap"
+	"github.com/seeruk/go-console/parameters"
 )
 
 // DescribeCommand describes a Command on an Application to provide usage information.

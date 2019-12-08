@@ -25,6 +25,8 @@ type Application struct {
 	// Writer to write output to.
 	Writer io.Writer
 
+	// The root command, that is run by default, when no other commands are specified.
+	rootCommand *Command
 	// Slice of commands that can be run. May contain sub-commands.
 	commands []*Command
 	// Slice of global options.
@@ -62,7 +64,7 @@ func (a *Application) Run(argv []string, env []string) int {
 
 	a.configure(a.definition)
 
-	// @TODO: Could we handle global options before we do anything with commands? It wouldn't be too
+	// TODO: Could we handle global options before we do anything with commands? It wouldn't be too
 	// useful for the `help` argument because we need to know the context (i.e. cmd) we're
 	// running to show the right thing.
 	cmd, path := a.resolveCommand(argv)
@@ -118,12 +120,23 @@ func (a *Application) AddGlobalOption(definition OptionDefinition) {
 	a.globalOptionDefinitions = append(a.globalOptionDefinitions, definition)
 }
 
+// SetRootCommand sets the root command for the application
+func (a *Application) SetRootCommand(command *Command) {
+	a.rootCommand = command
+}
+
 // resolveCommand attempts to find the command to run based on the raw input.
 func (a *Application) resolveCommand(args []string) (*Command, []string) {
 	var loop func(depth int, container CommandContainer) *Command
 	var path []string
 
 	loop = func(depth int, container CommandContainer) *Command {
+		// If we don't have any arguments, but we do have a root command, we should use it.
+		if len(args) == 0 && a.rootCommand != nil {
+			return a.rootCommand
+		}
+
+		// If we've exhausted all arguments, break from recursion.
 		if len(args) < (depth + 1) {
 			return nil
 		}
@@ -143,10 +156,15 @@ func (a *Application) resolveCommand(args []string) (*Command, []string) {
 
 		if command != nil {
 			subCommand := loop(depth+1, command)
-
 			if subCommand != nil {
 				command = subCommand
 			}
+		}
+
+		// If we're still looking at the first argument, but didn't find a command that matches it,
+		// and we do have a root command, it's likely the argument is meant for the root command.
+		if depth == 0 && command == nil && a.rootCommand != nil {
+			command = a.rootCommand
 		}
 
 		return command
