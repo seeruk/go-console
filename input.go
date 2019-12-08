@@ -45,6 +45,3 @@ func (i *Input) HasOption(names []string) bool {
 
 	return false
 }
-
-// @todo: Input (low priority):
-// @todo: - Add method for retrieving argument by index.

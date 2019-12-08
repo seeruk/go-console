@@ -9,7 +9,7 @@ import (
 // ParseOptionSpecification parses an option spec string and produces an Option.
 func ParseOptionSpecification(spec string) (parameters.Option, error) {
 	scanner := NewScanner(strings.NewReader(spec))
-	parser := newOptionSpecifcationParser(scanner)
+	parser := newOptionSpecificationParser(scanner)
 
 	return parser.parse()
 }
@@ -19,8 +19,8 @@ type optionSpecificationParser struct {
 	parser
 }
 
-// newOptionSpecifcationParser creates a new option specification parser.
-func newOptionSpecifcationParser(scanner *Scanner) *optionSpecificationParser {
+// newOptionSpecificationParser creates a new option specification parser.
+func newOptionSpecificationParser(scanner *Scanner) *optionSpecificationParser {
 	parser := parser{
 		scanner: scanner,
 	}

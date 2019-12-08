@@ -59,10 +59,10 @@ func DescribeOptions(options []Option) string {
 	// Find maximum option names width for spacing.
 	var width int
 	for _, names := range optDescKeys {
-		len := len(names)
+		namesLen := len(names)
 
-		if len+2 > width {
-			width = len + 2
+		if namesLen+2 > width {
+			width = namesLen + 2
 		}
 	}
 

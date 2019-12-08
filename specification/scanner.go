@@ -13,6 +13,7 @@ type Token int
 const eof = rune(0)
 
 // The possible token types.
+// TODO: Idiomatic names.
 const (
 	ILLEGAL Token = iota
 	EOF
@@ -134,5 +135,5 @@ func isAlphaNumeric(r rune) bool {
 
 // isWhitespace reports whether the given rune is a whitespace character.
 func isWhitespace(r rune) bool {
-	return r == '	' || r == ' ' || r == '\n' || r == '\r' || r == '\t' || unicode.IsSpace(r)
+	return unicode.IsSpace(r)
 }

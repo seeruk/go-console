@@ -9,29 +9,29 @@ import (
 // ParseArgumentSpecification parses an argument spec string and produces an Argument.
 func ParseArgumentSpecification(spec string) (parameters.Argument, error) {
 	scanner := NewScanner(strings.NewReader(spec))
-	parser := newArgumentSpecifcationParser(scanner)
+	parser := newArgumentSpecificationParser(scanner)
 
 	return parser.parse()
 }
 
-// argumentSpecifcationParser parses argument specification strings.
-type argumentSpecifcationParser struct {
+// argumentSpecificationParser parses argument specification strings.
+type argumentSpecificationParser struct {
 	parser
 }
 
-// newArgumentSpecifcationParser creates a new argument specification parser.
-func newArgumentSpecifcationParser(scanner *Scanner) *argumentSpecifcationParser {
+// newArgumentSpecificationParser creates a new argument specification parser.
+func newArgumentSpecificationParser(scanner *Scanner) *argumentSpecificationParser {
 	parser := parser{
 		scanner: scanner,
 	}
 
-	return &argumentSpecifcationParser{
+	return &argumentSpecificationParser{
 		parser: parser,
 	}
 }
 
 // Parse takes a specification string, and turns parses it into an Argument.
-func (p *argumentSpecifcationParser) parse() (parameters.Argument, error) {
+func (p *argumentSpecificationParser) parse() (parameters.Argument, error) {
 	var argument parameters.Argument
 	var deep bool
 

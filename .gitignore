@@ -7,5 +7,5 @@
 *.test
 *.prof
 
-_examples/*
-!_examples/*.go
+example/*
+!example/*.go

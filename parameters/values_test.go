@@ -8,6 +8,7 @@ import (
 
 	"github.com/seeruk/go-console/parameters"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestBoolValue(t *testing.T) {
@@ -70,10 +71,10 @@ func TestBoolValue(t *testing.T) {
 
 			assert.Equal(t, true, ref)
 
-			value.Set("false")
+			require.NoError(t, value.Set("false"))
 			assert.Equal(t, false, ref)
 
-			value.Set("true")
+			require.NoError(t, value.Set("true"))
 			assert.Equal(t, true, ref)
 		})
 	})
@@ -96,7 +97,7 @@ func TestBoolValue(t *testing.T) {
 
 		for in, expected := range inOut {
 			value := new(parameters.BoolValue)
-			value.Set(in)
+			require.NoError(t, value.Set(in))
 
 			actual := value.String()
 			assert.Equal(t, expected, actual)
@@ -163,10 +164,10 @@ func TestDateValue(t *testing.T) {
 
 			assert.Equal(t, "2017-02-27", ref.Format("2006-01-02"))
 
-			value.Set("2000-12-01")
+			require.NoError(t, value.Set("2000-12-01"))
 			assert.Equal(t, "2000-12-01", ref.Format("2006-01-02"))
 
-			value.Set("0123-04-05")
+			require.NoError(t, value.Set("0123-04-05"))
 			assert.Equal(t, "0123-04-05", ref.Format("2006-01-02"))
 		})
 	})
@@ -180,7 +181,7 @@ func TestDateValue(t *testing.T) {
 
 		for _, result := range results {
 			value := new(parameters.DateValue)
-			value.Set(result)
+			require.NoError(t, value.Set(result))
 
 			actual := value.String()
 			assert.Equal(t, result, actual)
@@ -238,10 +239,10 @@ func TestDurationValue(t *testing.T) {
 
 			assert.Equal(t, time.Second, ref)
 
-			value.Set("1m")
+			require.NoError(t, value.Set("1m"))
 			assert.Equal(t, time.Minute, ref)
 
-			value.Set("1h")
+			require.NoError(t, value.Set("1h"))
 			assert.Equal(t, ref, time.Hour)
 		})
 	})
@@ -259,7 +260,7 @@ func TestDurationValue(t *testing.T) {
 
 		for in, expected := range inOut {
 			value := new(parameters.DurationValue)
-			value.Set(in)
+			require.NoError(t, value.Set(in))
 
 			actual := value.String()
 			assert.Equal(t, expected, actual)
@@ -313,10 +314,10 @@ func TestFloat32Value(t *testing.T) {
 
 			assert.Equal(t, float32(3.14), ref)
 
-			value.Set("3.14159")
+			require.NoError(t, value.Set("3.14159"))
 			assert.Equal(t, float32(3.14159), ref)
 
-			value.Set("10")
+			require.NoError(t, value.Set("10"))
 			assert.Equal(t, float32(10), ref)
 		})
 	})
@@ -331,7 +332,7 @@ func TestFloat32Value(t *testing.T) {
 
 		for in, expected := range inOut {
 			value := new(parameters.Float32Value)
-			value.Set(in)
+			require.NoError(t, value.Set(in))
 
 			actual := value.String()
 			assert.Equal(t, expected, actual)
@@ -341,7 +342,7 @@ func TestFloat32Value(t *testing.T) {
 
 func TestFloat64Value(t *testing.T) {
 	t.Run("NewFloat64Value()", func(t *testing.T) {
-		float := float64(3.14)
+		float := 3.14
 		floatValue := parameters.NewFloat64Value(&float)
 
 		assert.Equal(t, "3.14", floatValue.String())
@@ -380,15 +381,15 @@ func TestFloat64Value(t *testing.T) {
 		})
 
 		t.Run("should modify the float64 that it references", func(t *testing.T) {
-			ref := float64(3.14)
+			ref := 3.14
 			value := parameters.NewFloat64Value(&ref)
 
-			assert.Equal(t, float64(3.14), ref)
+			assert.Equal(t, 3.14, ref)
 
-			value.Set("3.14159")
-			assert.Equal(t, float64(3.14159), ref)
+			require.NoError(t, value.Set("3.14159"))
+			assert.Equal(t, 3.14159, ref)
 
-			value.Set("10")
+			require.NoError(t, value.Set("10"))
 			assert.Equal(t, float64(10), ref)
 		})
 	})
@@ -403,7 +404,7 @@ func TestFloat64Value(t *testing.T) {
 
 		for in, expected := range inOut {
 			value := new(parameters.Float64Value)
-			value.Set(in)
+			require.NoError(t, value.Set(in))
 
 			actual := value.String()
 			assert.Equal(t, expected, actual)
@@ -458,10 +459,10 @@ func TestIntValue(t *testing.T) {
 
 			assert.Equal(t, 5, ref)
 
-			value.Set("10")
+			require.NoError(t, value.Set("10"))
 			assert.Equal(t, 10, ref)
 
-			value.Set("25")
+			require.NoError(t, value.Set("25"))
 			assert.Equal(t, 25, ref)
 		})
 	})
@@ -475,7 +476,7 @@ func TestIntValue(t *testing.T) {
 
 		for in, expected := range inOut {
 			value := new(parameters.IntValue)
-			value.Set(in)
+			require.NoError(t, value.Set(in))
 
 			actual := value.String()
 			assert.Equal(t, expected, actual)
@@ -493,7 +494,7 @@ func TestIPValue(t *testing.T) {
 
 	t.Run("Set()", func(t *testing.T) {
 		t.Run("should not error for valid values", func(t *testing.T) {
-			var value parameters.IPValue
+			value := parameters.IPValue{}
 
 			valid := []string{
 				"127.0.0.1",
@@ -511,7 +512,7 @@ func TestIPValue(t *testing.T) {
 		})
 
 		t.Run("should error for invalid values", func(t *testing.T) {
-			var value parameters.IPValue
+			value := parameters.IPValue{}
 
 			invalid := []string{
 				"",
@@ -533,10 +534,10 @@ func TestIPValue(t *testing.T) {
 
 			assert.Equal(t, value.String(), ref.String())
 
-			value.Set("192.168.0.1")
+			require.NoError(t, value.Set("192.168.0.1"))
 			assert.Equal(t, value.String(), ref.String())
 
-			value.Set("10.0.0.1")
+			require.NoError(t, value.Set("10.0.0.1"))
 			assert.Equal(t, value.String(), ref.String())
 		})
 	})
@@ -550,7 +551,7 @@ func TestIPValue(t *testing.T) {
 
 		for in, expected := range inOut {
 			value := new(parameters.IPValue)
-			value.Set(in)
+			require.NoError(t, value.Set(in))
 
 			actual := value.String()
 			assert.Equal(t, expected, actual)
@@ -590,7 +591,7 @@ func TestStringValue(t *testing.T) {
 			value := parameters.NewStringValue(&ref)
 			assert.Equal(t, "Hello", ref)
 
-			value.Set("World")
+			require.NoError(t, value.Set("World"))
 			assert.Equal(t, "World", ref)
 		})
 	})
@@ -605,7 +606,7 @@ func TestStringValue(t *testing.T) {
 
 		for in, expected := range inOut {
 			value := new(parameters.StringValue)
-			value.Set(in)
+			require.NoError(t, value.Set(in))
 
 			actual := value.String()
 			assert.Equal(t, expected, actual)
@@ -650,7 +651,7 @@ func TestUrlValue(t *testing.T) {
 			value := parameters.NewURLValue(ref)
 			assert.Equal(t, oldURL, ref.String())
 
-			value.Set(newURL)
+			require.NoError(t, value.Set(newURL))
 			assert.Equal(t, newURL, ref.String())
 		})
 	})
@@ -664,7 +665,7 @@ func TestUrlValue(t *testing.T) {
 
 		for in, expected := range inOut {
 			value := new(parameters.URLValue)
-			value.Set(in)
+			require.NoError(t, value.Set(in))
 
 			actual := value.String()
 			assert.Equal(t, expected, actual)

@@ -1,6 +1,6 @@
 package parameters
 
-// Argument provides the internal representation of an input argument paremeter.
+// Argument provides the internal representation of an input argument parameter.
 type Argument struct {
 	// The name of this argument.
 	Name string

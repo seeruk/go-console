@@ -34,19 +34,19 @@ func NewBoolValue(ref *bool) *BoolValue {
 }
 
 // Set assigns a value to the value that this BoolValue references.
-func (b *BoolValue) Set(s string) error {
-	v, err := strconv.ParseBool(s)
-	*b = BoolValue(v)
+func (v *BoolValue) Set(s string) error {
+	b, err := strconv.ParseBool(s)
+	*v = BoolValue(b)
 	return err
 }
 
 // String converts this BoolValue to a string.
-func (b *BoolValue) String() string {
-	return fmt.Sprintf("%v", *b)
+func (v *BoolValue) String() string {
+	return fmt.Sprintf("%v", *v)
 }
 
 // FlagValue returns the default value boolValue when no value is present (i.e. when used as a flag)
-func (b *BoolValue) FlagValue() string {
+func (v *BoolValue) FlagValue() string {
 	return "true"
 }
 
@@ -59,15 +59,15 @@ func NewDateValue(ref *time.Time) *DateValue {
 }
 
 // Set assigns a value to the value that this DateValue references.
-func (d *DateValue) Set(s string) error {
-	v, err := time.Parse("2006-01-02", s)
-	*d = DateValue(v)
+func (v *DateValue) Set(s string) error {
+	d, err := time.Parse("2006-01-02", s)
+	*v = DateValue(d)
 	return err
 }
 
 // String converts this DateValue to a string.
-func (d *DateValue) String() string {
-	return (*time.Time)(d).Format("2006-01-02")
+func (v *DateValue) String() string {
+	return (*time.Time)(v).Format("2006-01-02")
 }
 
 // DurationValue abstracts functionality for parsing input that should be represented as a
@@ -80,15 +80,15 @@ func NewDurationValue(ref *time.Duration) *DurationValue {
 }
 
 // Set assigns a value to the value that this DurationValue references.
-func (d *DurationValue) Set(s string) error {
-	v, err := time.ParseDuration(s)
-	*d = DurationValue(v)
+func (v *DurationValue) Set(s string) error {
+	d, err := time.ParseDuration(s)
+	*v = DurationValue(d)
 	return err
 }
 
 // String converts this DurationValue to a string.
-func (d *DurationValue) String() string {
-	return (*time.Duration)(d).String()
+func (v *DurationValue) String() string {
+	return (*time.Duration)(v).String()
 }
 
 // Float32Value abstracts functionality for parsing input that should be represented as a float32.
@@ -100,19 +100,19 @@ func NewFloat32Value(ref *float32) *Float32Value {
 }
 
 // Set assigns a value to the value that this Float32Value references.
-func (f *Float32Value) Set(s string) error {
-	v, err := strconv.ParseFloat(s, 32)
+func (v *Float32Value) Set(s string) error {
+	f, err := strconv.ParseFloat(s, 32)
 	if err != nil {
 		return err
 	}
 
-	*f = Float32Value(float32(v))
+	*v = Float32Value(float32(f))
 	return err
 }
 
 // String converts this float32Value to a string.
-func (f *Float32Value) String() string {
-	return fmt.Sprintf("%v", *f)
+func (v *Float32Value) String() string {
+	return fmt.Sprintf("%v", *v)
 }
 
 // Float64Value abstracts functionality for parsing input that should be represented as a float64.
@@ -124,15 +124,15 @@ func NewFloat64Value(ref *float64) *Float64Value {
 }
 
 // Set assigns a value to the value that this Float64Value references.
-func (f *Float64Value) Set(s string) error {
-	v, err := strconv.ParseFloat(s, 64)
-	*f = Float64Value(v)
+func (v *Float64Value) Set(s string) error {
+	f, err := strconv.ParseFloat(s, 64)
+	*v = Float64Value(f)
 	return err
 }
 
 // String converts this Float64Value to a string.
-func (f *Float64Value) String() string {
-	return fmt.Sprintf("%v", *f)
+func (v *Float64Value) String() string {
+	return fmt.Sprintf("%v", *v)
 }
 
 // IntValue abstracts functionality for parsing input that should be represented as an int.
@@ -144,15 +144,15 @@ func NewIntValue(ref *int) *IntValue {
 }
 
 // Set assigns a value to the value that this IntValue references.
-func (i *IntValue) Set(s string) error {
-	v, err := strconv.ParseInt(s, 0, 64)
-	*i = IntValue(v)
+func (v *IntValue) Set(s string) error {
+	i, err := strconv.ParseInt(s, 0, 64)
+	*v = IntValue(i)
 	return err
 }
 
 // String converts this IntValue to a string.
-func (i *IntValue) String() string {
-	return fmt.Sprintf("%v", *i)
+func (v *IntValue) String() string {
+	return fmt.Sprintf("%v", *v)
 }
 
 // IPValue abstracts functionality for parsing input that should be represented as an IP address.
@@ -164,20 +164,20 @@ func NewIPValue(ref *net.IP) *IPValue {
 }
 
 // Set assigns a value to the value that this IPValue references.
-func (s *IPValue) Set(val string) error {
+func (v *IPValue) Set(val string) error {
 	ip := net.ParseIP(val)
 	if ip == nil {
-		return fmt.Errorf("Invalid IP address format '%s'", val)
+		return fmt.Errorf("invalid IP address format '%v'", val)
 	}
 
-	*s = IPValue(ip)
+	*v = IPValue(ip)
 
 	return nil
 }
 
 // String converts this IPValue to a string.
-func (s *IPValue) String() string {
-	ip := net.IP(*s)
+func (v *IPValue) String() string {
+	ip := net.IP(*v)
 
 	return ip.String()
 }
@@ -191,14 +191,14 @@ func NewStringValue(ref *string) *StringValue {
 }
 
 // Set assigns a value to the value that this StringValue references.
-func (s *StringValue) Set(val string) error {
-	*s = StringValue(val)
+func (v *StringValue) Set(val string) error {
+	*v = StringValue(val)
 	return nil
 }
 
 // String converts this StringValue to a string.
-func (s *StringValue) String() string {
-	return fmt.Sprintf("%s", *s)
+func (v *StringValue) String() string {
+	return fmt.Sprintf("%v", *v)
 }
 
 // URLValue abstracts functionality for parsing input that should be represented as a URL.
@@ -210,15 +210,18 @@ func NewURLValue(ref *url.URL) *URLValue {
 }
 
 // Set assigns a value to the value that this URLValue references.
-func (u *URLValue) Set(val string) error {
+func (v *URLValue) Set(val string) error {
 	res, err := url.Parse(val)
-	*u = URLValue(*res)
-	return err
+	if err != nil {
+		return err
+	}
+	*v = URLValue(*res)
+	return nil
 }
 
 // String converts this URLValue to a string.
-func (u *URLValue) String() string {
-	url := url.URL(*u)
+func (v *URLValue) String() string {
+	u := url.URL(*v)
 
-	return fmt.Sprintf("%v", url.String())
+	return fmt.Sprintf("%v", u.String())
 }

@@ -28,10 +28,10 @@ func DescribeArguments(arguments []Argument) string {
 	// Find maximum option names width for spacing.
 	var width int
 	for _, name := range argDescKeys {
-		len := len(name)
+		nameLen := len(name)
 
-		if len+2 > width {
-			width = len + 2
+		if nameLen+2 > width {
+			width = nameLen + 2
 		}
 	}
 
