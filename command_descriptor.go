@@ -92,11 +92,11 @@ func DescribeCommands(commands []*Command) string {
 // describeCommandUsage describes a command's usage.
 func describeCommandUsage(app *Application, cmd *Command, args []parameters.Argument, opts []parameters.Option, path []string) string {
 	desc := "USAGE:\n"
-	desc += fmt.Sprintf(
-		"  %s %s",
-		app.UsageName,
-		strings.Join(path, " "),
-	)
+	desc += fmt.Sprintf("  %s", app.UsageName)
+
+	if len(path) > 0 {
+		desc += fmt.Sprintf(" %s", strings.Join(path, " "))
+	}
 
 	if len(opts) > 0 {
 		desc += " [OPTIONS...]"
