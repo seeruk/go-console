@@ -3,7 +3,7 @@ package specification
 import (
 	"strings"
 
-	"github.com/eidolon/console/parameters"
+	"github.com/seeruk/go-console/parameters"
 )
 
 // ParseArgumentSpecification parses an argument spec string and produces an Argument.

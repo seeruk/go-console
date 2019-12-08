@@ -3,8 +3,8 @@ package console
 import (
 	"fmt"
 
-	"github.com/eidolon/console/parameters"
-	"github.com/eidolon/console/specification"
+	"github.com/seeruk/go-console/parameters"
+	"github.com/seeruk/go-console/specification"
 )
 
 // Definition represents the collected and configured input parameters of an application.

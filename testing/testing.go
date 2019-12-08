@@ -1,7 +1,7 @@
 package testing
 
 import (
-	. "github.com/eidolon/console"
+	. "github.com/seeruk/go-console"
 )
 
 // RunCommand makes it easier to run a command in a test, by providing all inputs and output, and

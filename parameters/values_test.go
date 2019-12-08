@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/eidolon/console/parameters"
-	"github.com/seeruk/assert"
+	"github.com/seeruk/go-console/parameters"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestBoolValue(t *testing.T) {
@@ -43,7 +43,7 @@ func TestBoolValue(t *testing.T) {
 
 			for _, item := range valid {
 				err := value.Set(item)
-				assert.OK(t, err)
+				assert.NoError(t, err)
 			}
 		})
 
@@ -60,7 +60,7 @@ func TestBoolValue(t *testing.T) {
 
 			for _, item := range invalid {
 				err := value.Set(item)
-				assert.NotOK(t, err)
+				assert.Error(t, err)
 			}
 		})
 
@@ -134,7 +134,7 @@ func TestDateValue(t *testing.T) {
 
 			for _, item := range valid {
 				err := value.Set(item)
-				assert.OK(t, err)
+				assert.NoError(t, err)
 			}
 		})
 
@@ -149,7 +149,7 @@ func TestDateValue(t *testing.T) {
 
 			for _, item := range invalid {
 				err := value.Set(item)
-				assert.NotOK(t, err)
+				assert.Error(t, err)
 			}
 		})
 
@@ -212,7 +212,7 @@ func TestDurationValue(t *testing.T) {
 
 			for _, item := range valid {
 				err := value.Set(item)
-				assert.OK(t, err)
+				assert.NoError(t, err)
 			}
 		})
 
@@ -228,7 +228,7 @@ func TestDurationValue(t *testing.T) {
 
 			for _, item := range invalid {
 				err := value.Set(item)
-				assert.NotOK(t, err)
+				assert.Error(t, err)
 			}
 		})
 
@@ -288,7 +288,7 @@ func TestFloat32Value(t *testing.T) {
 
 			for _, item := range valid {
 				err := value.Set(item)
-				assert.OK(t, err)
+				assert.NoError(t, err)
 			}
 		})
 
@@ -303,7 +303,7 @@ func TestFloat32Value(t *testing.T) {
 
 			for _, item := range invalid {
 				err := value.Set(item)
-				assert.NotOK(t, err)
+				assert.Error(t, err)
 			}
 		})
 
@@ -360,7 +360,7 @@ func TestFloat64Value(t *testing.T) {
 
 			for _, item := range valid {
 				err := value.Set(item)
-				assert.OK(t, err)
+				assert.NoError(t, err)
 			}
 		})
 
@@ -375,7 +375,7 @@ func TestFloat64Value(t *testing.T) {
 
 			for _, item := range invalid {
 				err := value.Set(item)
-				assert.NotOK(t, err)
+				assert.Error(t, err)
 			}
 		})
 
@@ -432,7 +432,7 @@ func TestIntValue(t *testing.T) {
 
 			for _, item := range valid {
 				err := value.Set(item)
-				assert.OK(t, err)
+				assert.NoError(t, err)
 			}
 		})
 
@@ -448,7 +448,7 @@ func TestIntValue(t *testing.T) {
 
 			for _, item := range invalid {
 				err := value.Set(item)
-				assert.NotOK(t, err)
+				assert.Error(t, err)
 			}
 		})
 
@@ -506,7 +506,7 @@ func TestIPValue(t *testing.T) {
 
 			for _, item := range valid {
 				err := value.Set(item)
-				assert.OK(t, err)
+				assert.NoError(t, err)
 			}
 		})
 
@@ -523,7 +523,7 @@ func TestIPValue(t *testing.T) {
 
 			for _, item := range invalid {
 				err := value.Set(item)
-				assert.NotOK(t, err)
+				assert.Error(t, err)
 			}
 		})
 
@@ -580,7 +580,7 @@ func TestStringValue(t *testing.T) {
 
 			for _, item := range valid {
 				err := value.Set(item)
-				assert.OK(t, err)
+				assert.NoError(t, err)
 			}
 		})
 
@@ -618,7 +618,7 @@ func TestUrlValue(t *testing.T) {
 		expected := "https://www.google.co.uk/"
 
 		actual, err := url.Parse(expected)
-		assert.OK(t, err)
+		assert.NoError(t, err)
 
 		actualValue := parameters.NewURLValue(actual)
 		assert.Equal(t, expected, actualValue.String())
@@ -636,7 +636,7 @@ func TestUrlValue(t *testing.T) {
 
 			for _, item := range valid {
 				err := value.Set(item)
-				assert.OK(t, err)
+				assert.NoError(t, err)
 			}
 		})
 
@@ -645,7 +645,7 @@ func TestUrlValue(t *testing.T) {
 			newURL := "https://www.elliotdwright.com/"
 
 			ref, err := url.Parse(oldURL)
-			assert.OK(t, err)
+			assert.NoError(t, err)
 
 			value := parameters.NewURLValue(ref)
 			assert.Equal(t, oldURL, ref.String())

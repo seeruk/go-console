@@ -9,19 +9,19 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/eidolon/console"
-	"github.com/eidolon/console/parameters"
-	"github.com/seeruk/assert"
+	"github.com/seeruk/go-console"
+	"github.com/seeruk/go-console/parameters"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewApplication(t *testing.T) {
-	application := console.NewApplication("eidolon/console", "1.2.3+testing")
+	application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 	assert.True(t, application != nil, "Application should not be nil")
 }
 
 func TestApplication(t *testing.T) {
 	createApplication := func(writer io.Writer) *console.Application {
-		application := console.NewApplication("eidolon/console", "1.2.3.+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3.+testing")
 		application.Writer = writer
 
 		return application

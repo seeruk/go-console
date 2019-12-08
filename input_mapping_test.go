@@ -3,9 +3,9 @@ package console_test
 import (
 	"testing"
 
-	"github.com/eidolon/console"
-	"github.com/eidolon/console/parameters"
-	"github.com/seeruk/assert"
+	"github.com/seeruk/go-console"
+	"github.com/seeruk/go-console/parameters"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestMapInput(t *testing.T) {
@@ -34,7 +34,7 @@ func TestMapInput(t *testing.T) {
 		})
 
 		err := console.MapInput(definition, input, []string{})
-		assert.OK(t, err)
+		assert.NoError(t, err)
 
 		assert.Equal(t, "hello", s1)
 		assert.Equal(t, "world", s2)
@@ -54,7 +54,7 @@ func TestMapInput(t *testing.T) {
 		})
 
 		err := console.MapInput(definition, input, []string{})
-		assert.NotOK(t, err)
+		assert.Error(t, err)
 	})
 
 	t.Run("should error when required arguments are missing from input", func(t *testing.T) {
@@ -78,7 +78,7 @@ func TestMapInput(t *testing.T) {
 		})
 
 		err := console.MapInput(definition, input, []string{})
-		assert.NotOK(t, err)
+		assert.Error(t, err)
 	})
 
 	t.Run("should not error when optional arguments are missing from input", func(t *testing.T) {
@@ -102,7 +102,7 @@ func TestMapInput(t *testing.T) {
 		})
 
 		err := console.MapInput(definition, input, []string{})
-		assert.OK(t, err)
+		assert.NoError(t, err)
 
 		assert.Equal(t, "foo", s1)
 		assert.Equal(t, "", s2)
@@ -129,7 +129,7 @@ func TestMapInput(t *testing.T) {
 		})
 
 		err := console.MapInput(definition, input, []string{})
-		assert.OK(t, err)
+		assert.NoError(t, err)
 
 		assert.Equal(t, "foo", s1)
 		assert.Equal(t, "bar", s2)
@@ -156,7 +156,7 @@ func TestMapInput(t *testing.T) {
 		})
 
 		err := console.MapInput(definition, input, []string{})
-		assert.OK(t, err)
+		assert.NoError(t, err)
 
 		assert.Equal(t, "bar", s1)
 		assert.Equal(t, "qux", s2)
@@ -174,7 +174,7 @@ func TestMapInput(t *testing.T) {
 		})
 
 		err := console.MapInput(definition, input, []string{})
-		assert.OK(t, err)
+		assert.NoError(t, err)
 	})
 
 	t.Run("should error mapping an option that requires a value with no value", func(t *testing.T) {
@@ -189,7 +189,7 @@ func TestMapInput(t *testing.T) {
 		})
 
 		err := console.MapInput(definition, input, []string{})
-		assert.NotOK(t, err)
+		assert.Error(t, err)
 	})
 
 	t.Run("should not error parsing an option that doesn't require a value", func(t *testing.T) {
@@ -204,7 +204,7 @@ func TestMapInput(t *testing.T) {
 		})
 
 		err := console.MapInput(definition, input, []string{})
-		assert.OK(t, err)
+		assert.NoError(t, err)
 	})
 
 	t.Run("should set flag option values where applicable", func(t *testing.T) {
@@ -221,7 +221,7 @@ func TestMapInput(t *testing.T) {
 		})
 
 		err := console.MapInput(definition, input, []string{})
-		assert.OK(t, err)
+		assert.NoError(t, err)
 
 		assert.Equal(t, true, b1)
 	})
@@ -240,7 +240,7 @@ func TestMapInput(t *testing.T) {
 		})
 
 		err := console.MapInput(definition, input, []string{})
-		assert.NotOK(t, err)
+		assert.Error(t, err)
 	})
 
 	t.Run("should map env vars to their reference values", func(t *testing.T) {
@@ -268,7 +268,7 @@ func TestMapInput(t *testing.T) {
 			"TEST_S2=bar",
 		})
 
-		assert.OK(t, err)
+		assert.NoError(t, err)
 
 		assert.Equal(t, "foo", s1)
 		assert.Equal(t, "bar", s2)
@@ -287,7 +287,7 @@ func TestMapInput(t *testing.T) {
 			"FOO=bar",
 		})
 
-		assert.OK(t, err)
+		assert.NoError(t, err)
 	})
 
 	t.Run("should error mapping an env var that requires a value with no value", func(t *testing.T) {
@@ -304,7 +304,7 @@ func TestMapInput(t *testing.T) {
 			"TEST_FOO=",
 		})
 
-		assert.NotOK(t, err)
+		assert.Error(t, err)
 	})
 
 	t.Run("should not error mapping an env var that doesn't require a value", func(t *testing.T) {
@@ -321,7 +321,7 @@ func TestMapInput(t *testing.T) {
 			"TEST_FOO=",
 		})
 
-		assert.OK(t, err)
+		assert.NoError(t, err)
 	})
 
 	t.Run("should error parsing options with invalid values", func(t *testing.T) {
@@ -340,6 +340,6 @@ func TestMapInput(t *testing.T) {
 			"TEST_FOO=hello",
 		})
 
-		assert.NotOK(t, err)
+		assert.Error(t, err)
 	})
 }

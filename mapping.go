@@ -3,7 +3,7 @@ package console
 import (
 	"strings"
 
-	"github.com/eidolon/console/parameters"
+	"github.com/seeruk/go-console/parameters"
 )
 
 // Mapping and parsing when combined check all input provided as application arguments and

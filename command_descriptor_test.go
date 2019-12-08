@@ -4,14 +4,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/eidolon/console"
-	"github.com/eidolon/console/parameters"
-	"github.com/seeruk/assert"
+	"github.com/seeruk/go-console"
+	"github.com/seeruk/go-console/parameters"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestDescribeCommand(t *testing.T) {
 	t.Run("should return command usage information", func(t *testing.T) {
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 		command := console.Command{
 			Name: "test",
 		}
@@ -22,7 +22,7 @@ func TestDescribeCommand(t *testing.T) {
 	})
 
 	t.Run("should include the command name", func(t *testing.T) {
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 		command := console.Command{
 			Name: "test-command-name",
 		}
@@ -35,7 +35,7 @@ func TestDescribeCommand(t *testing.T) {
 	t.Run("should show the command description", func(t *testing.T) {
 		description := "This is the test-command-name description."
 
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 		command := console.Command{
 			Name:        "test-command-name",
 			Description: description,
@@ -49,7 +49,7 @@ func TestDescribeCommand(t *testing.T) {
 	t.Run("should return command help if there is some", func(t *testing.T) {
 		help := "This is some help for the test-command-name command."
 
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 		command := console.Command{
 			Name: "test-command-name",
 			Help: help,
@@ -65,7 +65,7 @@ func TestDescribeCommand(t *testing.T) {
 		var s1 string
 		var s2 string
 
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 		command := console.Command{
 			Name: "test-command-name",
 			Configure: func(definition *console.Definition) {
@@ -91,7 +91,7 @@ func TestDescribeCommand(t *testing.T) {
 		var s1 string
 		var s2 string
 
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 		command := console.Command{
 			Name: "test-command-name",
 			Configure: func(definition *console.Definition) {
@@ -118,7 +118,7 @@ func TestDescribeCommand(t *testing.T) {
 		//var s1 string
 		//var s2 string
 		//
-		//application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		//application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 		//application.Configure = func(definition *console.Definition) {
 		//	definition.AddOption(console.OptionDefinition{
 		//		Value: parameters.NewStringValue(&s1),
@@ -142,7 +142,7 @@ func TestDescribeCommand(t *testing.T) {
 	})
 
 	t.Run("should show that there are sub-commands if there are any", func(t *testing.T) {
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 
 		command := console.Command{
 			Name: "test-command-name",

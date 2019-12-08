@@ -3,12 +3,12 @@ package main
 import (
 	"os"
 
-	"github.com/eidolon/console"
-	"github.com/eidolon/console/parameters"
+	"github.com/seeruk/go-console"
+	"github.com/seeruk/go-console/parameters"
 )
 
 func main() {
-	application := console.NewApplication("eidolon/console", "0.1.0")
+	application := console.NewApplication("seeruk/go-console", "0.1.0")
 	application.Logo = `
                                              #
                               ###            ##

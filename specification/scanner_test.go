@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/eidolon/console/specification"
-	"github.com/seeruk/assert"
+	"github.com/seeruk/go-console/specification"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewScanner(t *testing.T) {

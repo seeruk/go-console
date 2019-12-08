@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/eidolon/console"
-	"github.com/seeruk/assert"
+	"github.com/seeruk/go-console"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewOutput(t *testing.T) {
@@ -29,7 +29,7 @@ func TestOutput(t *testing.T) {
 
 			nbytes, err := output.Print(message)
 
-			assert.OK(t, err)
+			assert.NoError(t, err)
 			assert.Equal(t, 13, nbytes)
 			assert.Equal(t, message, buffer.String())
 		})
@@ -43,7 +43,7 @@ func TestOutput(t *testing.T) {
 
 			nbytes, err := output.Print(message1, message2)
 
-			assert.OK(t, err)
+			assert.NoError(t, err)
 			assert.Equal(t, 11, nbytes)
 			assert.Equal(t, message1+message2, buffer.String())
 		})
@@ -56,7 +56,7 @@ func TestOutput(t *testing.T) {
 
 			nbytes, err := output.Printf("Hello, %s!", "World")
 
-			assert.OK(t, err)
+			assert.NoError(t, err)
 			assert.Equal(t, 13, nbytes)
 			assert.Equal(t, "Hello, World!", buffer.String())
 		})
@@ -73,7 +73,7 @@ func TestOutput(t *testing.T) {
 
 			nbytes, err := output.Printf(message, param1, param2)
 
-			assert.OK(t, err)
+			assert.NoError(t, err)
 			assert.Equal(t, 63, nbytes)
 			assert.Equal(t, expected, buffer.String())
 		})
@@ -89,7 +89,7 @@ func TestOutput(t *testing.T) {
 
 			nbytes, err := output.Println(message)
 
-			assert.OK(t, err)
+			assert.NoError(t, err)
 			assert.Equal(t, 14, nbytes)
 			assert.Equal(t, expected, buffer.String())
 		})
@@ -106,7 +106,7 @@ func TestOutput(t *testing.T) {
 
 			nbytes, err := output.Println(message1, message2)
 
-			assert.OK(t, err)
+			assert.NoError(t, err)
 			assert.Equal(t, 13, nbytes)
 			assert.Equal(t, expected, buffer.String())
 		})

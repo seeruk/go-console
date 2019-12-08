@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/eidolon/console/parameters"
+	"github.com/seeruk/go-console/parameters"
 )
 
 // Application represents the heart of the console application. It is what orchestrates running

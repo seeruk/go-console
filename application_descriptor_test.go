@@ -4,13 +4,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/eidolon/console"
-	"github.com/seeruk/assert"
+	"github.com/seeruk/go-console"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestDescribeApplication(t *testing.T) {
 	t.Run("should show the application logo if there is one", func(t *testing.T) {
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 		application.Logo = "Eidolon Console\n"
 
 		result := console.DescribeApplication(application)
@@ -19,7 +19,7 @@ func TestDescribeApplication(t *testing.T) {
 	})
 
 	t.Run("should show the application name", func(t *testing.T) {
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 
 		result := console.DescribeApplication(application)
 
@@ -27,7 +27,7 @@ func TestDescribeApplication(t *testing.T) {
 	})
 
 	t.Run("should show the application version", func(t *testing.T) {
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 
 		result := console.DescribeApplication(application)
 
@@ -35,7 +35,7 @@ func TestDescribeApplication(t *testing.T) {
 	})
 
 	t.Run("should show the application usage", func(t *testing.T) {
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 		application.UsageName = "eidolon_console_binary"
 
 		usage := application.UsageName + " COMMAND [OPTIONS...] [ARGUMENTS...]"
@@ -50,7 +50,7 @@ func TestDescribeApplication(t *testing.T) {
 		// @TODO: Update with global options implementation.
 		//var s1 string
 		//
-		//application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		//application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 		//application.Configure = func(definition *console.Definition) {
 		//	definition.AddOption(console.OptionDefinition{
 		//		Value: parameters.NewStringValue(&s1),
@@ -68,7 +68,7 @@ func TestDescribeApplication(t *testing.T) {
 	})
 
 	t.Run("should show the application commands if there are any", func(t *testing.T) {
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 		application.AddCommands([]*console.Command{
 			{
 				Name: "foo-cmd",
@@ -87,7 +87,7 @@ func TestDescribeApplication(t *testing.T) {
 	})
 
 	t.Run("should not show the commands title if there are no commands", func(t *testing.T) {
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 		application.Logo = "Eidolon Console\n"
 
 		result := console.DescribeApplication(application)
@@ -98,7 +98,7 @@ func TestDescribeApplication(t *testing.T) {
 	t.Run("should show the application help if there is any", func(t *testing.T) {
 		help := "This is some application help right here. Lorem ipsum dolor sit amet."
 
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 		application.Help = help
 
 		result := console.DescribeApplication(application)
@@ -108,7 +108,7 @@ func TestDescribeApplication(t *testing.T) {
 	})
 
 	t.Run("should not show the help title if there is no application help", func(t *testing.T) {
-		application := console.NewApplication("eidolon/console", "1.2.3+testing")
+		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
 		application.Logo = "Eidolon Console\n"
 
 		result := console.DescribeApplication(application)

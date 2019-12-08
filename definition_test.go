@@ -3,9 +3,9 @@ package console_test
 import (
 	"testing"
 
-	"github.com/eidolon/console"
-	"github.com/eidolon/console/parameters"
-	"github.com/seeruk/assert"
+	"github.com/seeruk/go-console"
+	"github.com/seeruk/go-console/parameters"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewDefinition(t *testing.T) {

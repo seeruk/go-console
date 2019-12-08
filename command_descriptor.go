@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/eidolon/console/parameters"
+	"github.com/seeruk/go-console/parameters"
 	"github.com/eidolon/wordwrap"
 )
 

@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/eidolon/console/parameters"
-	"github.com/seeruk/assert"
+	"github.com/seeruk/go-console/parameters"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestDescribeArguments(t *testing.T) {
