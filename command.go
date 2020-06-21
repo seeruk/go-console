@@ -32,7 +32,7 @@ type Command struct {
 }
 
 // AddCommands adds sub-commands to the command.
-func (c *Command) AddCommands(commands []*Command) *Command {
+func (c *Command) AddCommands(commands ...*Command) *Command {
 	c.commands = append(c.commands, commands...)
 
 	return c

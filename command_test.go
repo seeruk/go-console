@@ -22,7 +22,7 @@ func TestCommand(t *testing.T) {
 			}
 
 			command := console.Command{}
-			command.AddCommands(inCommands)
+			command.AddCommands(inCommands...)
 
 			assert.True(t, len(command.Commands()) == 2, "Expected two commands")
 
@@ -58,7 +58,7 @@ func TestCommand(t *testing.T) {
 			}
 
 			command := console.Command{}
-			command.AddCommands(inCommands)
+			command.AddCommands(inCommands...)
 
 			assert.True(t, len(command.Commands()) == 2, "Expected two commands")
 

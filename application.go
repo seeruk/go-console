@@ -107,7 +107,7 @@ func (a *Application) Run(argv []string, env []string) int {
 }
 
 // AddCommands adds commands to the application.
-func (a *Application) AddCommands(commands []*Command) {
+func (a *Application) AddCommands(commands ...*Command) {
 	a.commands = append(a.commands, commands...)
 }
 

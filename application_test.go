@@ -248,11 +248,11 @@ func TestApplication(t *testing.T) {
 
 			assert.Equal(t, 0, len(application.Commands()))
 
-			application.AddCommands([]*console.Command{
-				{
+			application.AddCommands(
+				&console.Command{
 					Name: "test1",
 				},
-			})
+			)
 
 			assert.Equal(t, 1, len(application.Commands()))
 		})
@@ -263,7 +263,7 @@ func TestApplication(t *testing.T) {
 
 			assert.Equal(t, 0, len(application.Commands()))
 
-			application.AddCommands([]*console.Command{})
+			application.AddCommands()
 
 			assert.Equal(t, 0, len(application.Commands()))
 		})
@@ -274,17 +274,17 @@ func TestApplication(t *testing.T) {
 
 			assert.Equal(t, 0, len(application.Commands()))
 
-			application.AddCommands([]*console.Command{
-				{
+			application.AddCommands(
+				&console.Command{
 					Name: "test1",
 				},
-				{
+				&console.Command{
 					Name: "test2",
 				},
-				{
+				&console.Command{
 					Name: "test3",
 				},
-			})
+			)
 
 			assert.Equal(t, 3, len(application.Commands()))
 		})

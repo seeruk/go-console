@@ -69,14 +69,14 @@ func TestDescribeApplication(t *testing.T) {
 
 	t.Run("should show the application commands if there are any", func(t *testing.T) {
 		application := console.NewApplication("seeruk/go-console", "1.2.3+testing")
-		application.AddCommands([]*console.Command{
-			{
+		application.AddCommands(
+			&console.Command{
 				Name: "foo-cmd",
 			},
-			{
+			&console.Command{
 				Name: "bar-cmd",
 			},
-		})
+		)
 
 		result := console.DescribeApplication(application)
 
